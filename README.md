@@ -1,16 +1,21 @@
 # fiberConnect
 
-A Python utility for managing local Wi-Fi connections via Termux using Android's native command-line interface.
+A Python utility for processing Wi-Fi SSIDs and viewing local network configurations via Termux.
 
-## Prerequisites
+# Features
+
+- **Direct Generation:** Process a specific SSID passed directly as a command-line argument.
+- **Scanning Mode:** View nearby network details using Termux API integrations.
+- **Formatted Output:** Colored command-line interface for clear readability.
+
+# Prerequisites
 
 - Android device with **Termux** installed
-- **Termux:API** app installed (from F-Droid or GitHub releases) with Location permissions granted
-- Root access (`su`) enabled on the device
+- **Termux:API** app installed (from F-Droid or GitHub releases) with Location permissions enabled
 
-## Installation
+# Installation
 
-Run the following commands in Termux to clone the repository and run the automated setup:
+Run the following commands in Termux to clone the repository and set up dependencies:
 
 ```bash
 # Clone the repository
@@ -19,5 +24,15 @@ git clone https://github.com/thedevprod/fiberConnect.git
 # Navigate into the project directory
 cd fiberConnect
 
-# Run the setup script to install system dependencies
+# Run the setup script
 bash setup.sh
+```
+
+# Usage
+### 1. Direct Generation Mode
+``` bash
+python wifi.py fh_0123456789ab
+```
+### 2. Scanning Mode
+``` bash
+python wifi.py
