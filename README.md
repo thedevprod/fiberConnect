@@ -1,14 +1,23 @@
-# FH Wi-Fi Auto Connector for Termux
+# fiberConnect
 
-A Python script that scans for Wi-Fi networks starting with `fh_`, automatically generates their respective passwords based on your custom mapping scheme, and connects to them using root privileges.
+A Python utility for managing local Wi-Fi connections via Termux using Android's native command-line interface.
 
 ## Prerequisites
-- Android phone with **Root access** (`su`)
-- **Termux** and **Termux:API** installed (Termux:API app required from F-Droid/Play Store with location permission granted)
 
-## Installation & Usage
+- Android device with **Termux** installed
+- **Termux:API** app installed (from F-Droid or GitHub releases) with Location permissions granted
+- Root access (`su`) enabled on the device
 
-1. Clone this repository in Termux:
-   ```bash
-   git clone [https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git)
-   cd YOUR_REPO_NAME
+## Installation
+
+Run the following commands in Termux to clone the repository and run the automated setup:
+
+```bash
+# Clone the repository
+git clone https://github.com/thedevprod/fiberConnect.git
+
+# Navigate into the project directory
+cd fiberConnect
+
+# Run the setup script to install system dependencies
+bash setup.sh
