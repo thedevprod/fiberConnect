@@ -36,20 +36,22 @@ def scan_networks():
         return json.loads(result.stdout)
     except Exception as e:
         print(f"{RED}[-] Error scanning networks: {e}{RESET}")
-        print(f"{YELLOW}[!] Make sure Termux:API app is installed and location permission is granted.{RESET}")
+        print(f"{YELLOW}[!] Make sure Termux:API app is installed, location permission is granted, and GPS is turned ON.{RESET}")
         return []
 
-def connect_wifi(ssid, password):
-    print(f"{CYAN}[*] Attempting to connect to '{ssid}' with password: {password}{RESET}")
-    cmd = f"su -c 'cmd wifi connect-network \"{ssid}\" wpa2 \"{password}\"'"
-    res = subprocess.run(cmd, shell=True)
-    
-    if res.returncode == 0:
-        print(f"{GREEN}[+] Connection command executed successfully!{RESET}")
-    else:
-        print(f"{RED}[-] Failed to connect. Ensure your phone is rooted and root permission was granted.{RESET}")
-
 def main():
+    # Check if user provided an SSID as a command-line argument (e.g., python wifi_script.py fh_12345)
+    if len(sys.argv) > 1:
+        target_ssid = sys.argv[1]
+        print(f"{CYAN}[*] Processing target SSID: {BLUE}{target_ssid}{RESET}")
+        password = generate_password(target_ssid)
+        if password:
+            print(f"{GREEN}[+] Generated Password: {YELLOW}{password}{RESET}")
+        else:
+            print(f"{RED}[-] Error: SSID must start with 'fh_'{RESET}")
+        return
+
+    # Otherwise, run the local scanner
     print(f"{CYAN}[*] Scanning for Wi-Fi networks starting with 'fh_'...{RESET}")
     networks = scan_networks()
     
@@ -62,17 +64,14 @@ def main():
         ssid = net.get("SSID", "") or net.get("ssid", "")
         if ssid.startswith("fh_"):
             found = True
-            print(f"\n{GREEN}[+] Found target network: {BLUE}{ssid}{RESET}")
             password = generate_password(ssid)
-            print(f"{GREEN}[+] Generated Password: {YELLOW}{password}{RESET}")
-            
-            choice = input(f"{YELLOW}Do you want to connect to {ssid}? (y/n): {RESET}").strip().lower()
-            if choice == 'y':
-                connect_wifi(ssid, password)
-                break
+            print(f"\n{GREEN}[+] Found Network: {BLUE}{ssid}{RESET}")
+            print(f"{GREEN}[+] Password:    {YELLOW}{password}{RESET}")
                 
     if not found:
-        print(f"{YELLOW}[-] No networks starting with 'fh_' were found in current range.{RESET}")
+        print(f"{YELLOW}[-] No networks starting with 'fh_' were found in the current range.{RESET}")
+    else:
+        print(f"\n{CYAN}[*] Scan complete.{RESET}")
 
 if __name__ == "__main__":
     main()
